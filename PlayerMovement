@@ -1,0 +1,40 @@
+using UnityEngine;
+using UnityEngine.Rendering;
+
+public class PlayerMovement : MonoBehaviour
+{
+    public float speed = 5f;
+    private Rigidbody2D rb;
+    public Weapon weapon;
+    
+    private Vector2 input;
+    private Vector2 mousePos;
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    // Update is called once per frame - used for inputs and timers
+    void Update()
+    {
+        //Input
+        input.x = Input.GetAxisRaw("Horizontal");
+        input.y = Input.GetAxisRaw("Vertical");
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            weapon.Fire();
+        }
+
+        input.Normalize(); //Makes our diagonal movement the same as other movements.  Without this, diagonal movement would be faster
+        //mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
+
+    //Called once per Physics frame - used for physics (we'll use for movement)
+    private void FixedUpdate()
+    {
+        rb.linearVelocity = input * speed;
+    }
+}

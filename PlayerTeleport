@@ -7,6 +7,9 @@ public class PlayerTeleport : MonoBehaviour
     private GameObject currentTeleporter;
     public TextMeshProUGUI interact;
 
+    public bool isPrevAliensActive = true; //are the current corridors' aliens ready to despawn/deactivate? false = yes
+    public bool isNextAliensActive = false; //are the next corridors' aliens ready to spawn/activate? true = yes
+
     // Update is called once per frame
     void Update()
     {

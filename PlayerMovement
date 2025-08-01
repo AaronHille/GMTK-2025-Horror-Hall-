@@ -6,7 +6,9 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 5f;
     private Rigidbody2D rb;
     public Weapon weapon;
-    
+
+    public Camera cam;
+
     private Vector2 input;
     private Vector2 mousePos;
     
@@ -29,12 +31,18 @@ public class PlayerMovement : MonoBehaviour
         }
 
         input.Normalize(); //Makes our diagonal movement the same as other movements.  Without this, diagonal movement would be faster
-        //mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
     }
 
     //Called once per Physics frame - used for physics (we'll use for movement)
     private void FixedUpdate()
     {
-        rb.linearVelocity = input * speed;
+        //rb.linearVelocity = input * speed; //setting velocity, which moves player around
+        rb.MovePosition(rb.position + input * speed * Time.deltaTime);
+
+        //calculating player angle based on the mouse position, allowing the player to rotate with the mouse
+        Vector2 lookDir = mousePos - rb.position;
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+        rb.rotation = angle;
     }
 }
